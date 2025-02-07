@@ -26,6 +26,7 @@ public class OrderProcessor {
      * @return True if the order was successfully processed, false otherwise.
      */
     public boolean processOrder(Order newOrder) {
+        final double startTime = System.currentTimeMillis();
         boolean success = false;
 
         try {
@@ -37,6 +38,9 @@ public class OrderProcessor {
         } catch (Exception e) {
             System.out.println("Error processing order " + newOrder.getOrderNumber());
         }
+        final double endTime = System.currentTimeMillis();
+        metricsPublisher.addMetric("ORDER_PROCESSING_TIMES", endTime - startTime, StandardUnit.MILLISECONDS);
+
 
         return success;
     }
